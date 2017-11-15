@@ -480,10 +480,11 @@ class StatsPluginCollector(object):
             'trafficserver_ram_cache_hits_total',
             'RAM cache hit count.',
             'counter')
-        metric.add_sample(
-            'trafficserver_ram_cache_hits_total',
-            value=data['proxy.process.cache.ram_cache.hits'],
-            labels={'volume': str(volume)})
+        if len(volumes):    #Only add if we have volume metrics
+            metric.add_sample(
+                'trafficserver_ram_cache_hits_total',
+                value=data['proxy.process.cache.ram_cache.hits'],
+                labels={'volume': str(volume)})
         yield metric
 
         metric = Metric(
